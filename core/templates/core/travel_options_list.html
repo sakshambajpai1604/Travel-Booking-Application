@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Travel Options</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Date & Time</th>
+            <th>Price</th>
+            <th>Available Seats</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for option in options %}
+        <tr>
+            <td>{{ option.type }}</td>
+            <td>{{ option.source }}</td>
+            <td>{{ option.destination }}</td>
+            <td>{{ option.date_time }}</td>
+            <td>{{ option.price }}</td>
+            <td>{{ option.available_seats }}</td>
+            <td>
+                <a href="{% url 'book_travel' option.travel_id %}" class="btn btn-success btn-sm">Book</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
