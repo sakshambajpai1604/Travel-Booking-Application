@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class TravelOption(models.Model):
-	TYPE_CHOICES = [
+	TRAVEL_TYPES = [
 		('Flight', 'Flight'),
 		('Train', 'Train'),
 		('Bus', 'Bus'),
 	]
 	travel_id = models.AutoField(primary_key=True)
-	type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+	type = models.CharField(max_length=10, choices=TRAVEL_TYPES)
 	source = models.CharField(max_length=100)
 	destination = models.CharField(max_length=100)
 	date_time = models.DateTimeField()
