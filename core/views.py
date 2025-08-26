@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django import forms
+from .models import TravelOption
 
 # Profile update form
 class ProfileForm(forms.ModelForm):
@@ -54,3 +55,7 @@ def profile_view(request):
 	else:
 		form = ProfileForm(instance=request.user)
 	return render(request, 'core/profile.html', {'form': form})
+
+def travel_options_list(request):
+    options = TravelOption.objects.all()
+    return render(request, 'core/travel_options_list.html', {'options': options})
