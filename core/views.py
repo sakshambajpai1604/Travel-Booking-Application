@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django import forms
 from .models import TravelOption, Booking
-from .forms import BookingForm
+from .forms import BookingForm, ProfileUpdateForm
 
 # Profile update form
 class ProfileForm(forms.ModelForm):
@@ -48,13 +48,13 @@ def logout_view(request):
 @login_required
 def profile_view(request):
 	if request.method == 'POST':
-		form = ProfileForm(request.POST, instance=request.user)
+		form = ProfileUpdateForm(request.POST, instance=request.user)
 		if form.is_valid():
 			form.save()
-			messages.success(request, 'Profile updated!')
+			messages.success(request, 'Profile updated successfully.')
 			return redirect('profile')
 	else:
-		form = ProfileForm(instance=request.user)
+		form = ProfileUpdateForm(instance=request.user)
 	return render(request, 'core/profile.html', {'form': form})
 
 def travel_options_list(request):
