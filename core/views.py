@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-
+from django.db.models import Q
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -59,7 +59,27 @@ def profile_view(request):
 
 def travel_options_list(request):
     options = TravelOption.objects.all()
-    return render(request, 'core/travel_options_list.html', {'options': options})
+    travel_type = request.GET.get('type')
+    source = request.GET.get('source')
+    destination = request.GET.get('destination')
+    date = request.GET.get('date')
+
+    if travel_type:
+        options = options.filter(type=travel_type)
+    if source:
+        options = options.filter(source__icontains=source)
+    if destination:
+        options = options.filter(destination__icontains=destination)
+    if date:
+        options = options.filter(date_time__date=date)
+
+    return render(request, 'core/travel_options_list.html', {
+        'options': options,
+        'travel_type': travel_type,
+        'source': source,
+        'destination': destination,
+        'date': date,
+    })
 
 @login_required
 def book_travel(request, travel_id):
