@@ -84,3 +84,8 @@ def book_travel(request, travel_id):
     else:
         form = BookingForm()
     return render(request, 'core/book_travel.html', {'form': form, 'travel_option': travel_option})
+
+@login_required
+def my_bookings(request):
+    bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
+    return render(request, 'core/my_bookings.html', {'bookings': bookings})
