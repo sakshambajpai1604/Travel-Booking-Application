@@ -1,6 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Available Travel Options</h2>
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-2">
+        <select name="type" class="form-select">
+            <option value="">All Types</option>
+            <option value="Flight" {% if travel_type == 'Flight' %}selected{% endif %}>Flight</option>
+            <option value="Train" {% if travel_type == 'Train' %}selected{% endif %}>Train</option>
+            <option value="Bus" {% if travel_type == 'Bus' %}selected{% endif %}>Bus</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <input type="text" name="source" class="form-control" placeholder="Source" value="{{ source }}">
+    </div>
+    <div class="col-md-2">
+        <input type="text" name="destination" class="form-control" placeholder="Destination" value="{{ destination }}">
+    </div>
+    <div class="col-md-2">
+        <input type="date" name="date" class="form-control" value="{{ date }}">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -26,6 +48,8 @@
                 <a href="{% url 'book_travel' option.travel_id %}" class="btn btn-success btn-sm">Book</a>
             </td>
         </tr>
+        {% empty %}
+        <tr><td colspan="7">No travel options found.</td></tr>
         {% endfor %}
     </tbody>
 </table>
