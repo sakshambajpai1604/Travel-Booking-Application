@@ -89,3 +89,14 @@ def book_travel(request, travel_id):
 def my_bookings(request):
     bookings = Booking.objects.filter(user=request.user).order_by('-booking_date')
     return render(request, 'core/my_bookings.html', {'bookings': bookings})
+
+@login_required
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
+    if booking.status == 'Confirmed':
+        booking.status = 'Cancelled'
+        booking.save()
+        # Restore seats
+        booking.travel_option.available_seats += booking.number_of_seats
+        booking.travel_option.save()
+    return redirect('my_bookings')
